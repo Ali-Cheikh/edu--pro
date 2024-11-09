@@ -220,15 +220,15 @@ async function displayCountdown() {
   
   async function fetchParticipants() {
     try {
-      const response = await fetch(url); // Replace with your actual web app URL
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwxaEFR8K09cKyP0VFDVXeXYm4-VQu_bHxrfloxJdcyb-e0d0UTDJU7NV4pav6vfcJDdw/exec'); // Replace with your actual web app URL
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      return data.lastRow; // Assuming lastRow is the number of participants
+      return data.lastRow-1; // Assuming lastRow is the number of participants
     } catch (error) {
       console.error('Error fetching participant count:', error);
-      return 0; // Return 0 if there's an error fetching participant count
+      return ; // Return 0 if there's an error fetching participant count
     }
   }
   
