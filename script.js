@@ -95,7 +95,7 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
     });
 
     // Google Apps Script URL (replace with your URL)
-    const url = 'https://script.google.com/macros/s/AKfycbxjGc-Y3azTcpRnr0t6-KG8deUsmB0q6iqfo0jX_sTXg0Soc2hx7LPe_9sPmytio4b4TQ/exec';
+    const url = 'https://script.google.com/macros/s/AKfycbwxaEFR8K09cKyP0VFDVXeXYm4-VQu_bHxrfloxJdcyb-e0d0UTDJU7NV4pav6vfcJDdw/exec';
 
     // Create an object to send via POST request
     const dataToSend = {
@@ -167,53 +167,68 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
 // ===================================================================================
 
 
-
 async function displayCountdown() {
     try {
-        // Set up the countdown date, objective, and number of participants
-        const countdownDate = new Date("2024-11-23 UTC23:59:59").getTime(); // Adjust target date here
-        const objective = `You have 2 weeks to<br>
-                           Create a Project that<br>
-                           has anything to do with<br>
-                           Tech, School, Education<br>
-                           in general, It doesn't have<br>
-                           to be a website <small>(prototype*)</small> `;
-        const participants = 50; // Example number of participants
+      // Set up the countdown date, objective, and number of participants
+      const countdownDate = new Date("2024-11-23 UTC23:59:59").getTime(); // Adjust target date here
+      const objective = `You have 2 weeks to<br>
+                         Create a Project that<br>
+                         has anything to do with<br>
+                         Tech, School, Education<br>
+                         in general, It doesn't have<br>
+                         to be a website <small>(prototype*)</small> `;
+    
+      // Fetch the number of participants from the Google Sheets Web App
+      const participants = await fetchParticipants();
   
-        // Function to format values as HTML elements
-        const valFormat = (val) => {
-            if (typeof val === 'number') return `<span class="value number">${val}</span>`;
-            else if (typeof val === 'string') return `<span class="value string">"${val}"</span>`;
-        };
+      // Function to format values as HTML elements
+      const valFormat = (val) => {
+        if (typeof val === 'number') return `<span class="value number">${val}</span>`;
+        else if (typeof val === 'string') return `<span class="value string">"${val}"</span>`;
+      };
   
-        // Countdown calculation
-        const now = new Date().getTime();
-        const distance = countdownDate - now;
-        
-        if (distance < 0) {
-            document.querySelector(".screen").innerHTML = `<p>The countdown has ended!</p>`;
-            return;
-        }
+      // Countdown calculation
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
   
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      if (distance < 0) {
+        document.querySelector(".screen").innerHTML = `<p>The countdown has ended!</p>`;
+        return;
+      }
   
-        // Display the countdown, objective, and participants in the HTML
-        document.querySelector(".screen").innerHTML =
-            `<span class="keyword">const</span>
-            <span class="def">countdownDetails</span>
-            <span class="operator">= {</span><br>
-                &nbsp;&nbsp;<span class="property">days</span>: ${valFormat(days)},<br>
-                &nbsp;&nbsp;<span class="property">hours</span>: ${valFormat(hours)},<br>
-                &nbsp;&nbsp;<span class="property">minutes</span>: ${valFormat(minutes)},<br>
-                &nbsp;&nbsp;<span class="property">seconds</span>: ${valFormat(seconds)},<br>
-                &nbsp;&nbsp;<span class="property">objective</span>: <br>${valFormat(objective)},<br>
-                &nbsp;&nbsp;<span class="property">participants</span>: ${valFormat(participants)}<br>
-                <span class="operator"> };</span>`;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+      // Display the countdown, objective, and participants in the HTML
+      document.querySelector(".screen").innerHTML =
+        `<span class="keyword">const</span>
+        <span class="def">countdownDetails</span>
+        <span class="operator">= {</span><br>
+          &nbsp;&nbsp;<span class="property">days</span>: ${valFormat(days)},<br>
+          &nbsp;&nbsp;<span class="property">hours</span>: ${valFormat(hours)},<br>
+          &nbsp;&nbsp;<span class="property">minutes</span>: ${valFormat(minutes)},<br>
+          &nbsp;&nbsp;<span class="property">seconds</span>: ${valFormat(seconds)},<br>
+          &nbsp;&nbsp;<span class="property">objective</span>: <br>${valFormat(objective)},<br>
+          &nbsp;&nbsp;<span class="property">participants</span>: ${valFormat(participants)}<br>
+          <span class="operator"> };</span>`;
     } catch (error) {
-        console.error('Error displaying countdown:', error);
+      console.error('Error displaying countdown:', error);
+    }
+  }
+  
+  async function fetchParticipants() {
+    try {
+      const response = await fetch(url); // Replace with your actual web app URL
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data.lastRow; // Assuming lastRow is the number of participants
+    } catch (error) {
+      console.error('Error fetching participant count:', error);
+      return 0; // Return 0 if there's an error fetching participant count
     }
   }
   

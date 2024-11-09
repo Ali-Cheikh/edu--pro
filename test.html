@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        .screen { font-family: 'Courier New', monospace; }
+        .keyword { color: green; }
+        .def { color: blue; }
+        .operator { color: red; }
+        .property { color: purple; }
+        .value { color: orange; }
+        .number { font-weight: bold; }
+        .string { font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="screen"></div>
+    <div id="participantCount"></div>
+  
+    <script>
+        // Function to fetch last participant count from Google Apps Script
+        function getLastParticipant() {
+            return new Promise((resolve, reject) => {
+                google.script.run.withSuccessHandler(function(lastRow) {
+                    // If we successfully get the participant count, resolve it
+                    resolve(lastRow);
+                }).withFailureHandler(function(error) {
+                    // Handle any errors
+                    console.error("Error getting last participant:", error);
+                    reject(error);
+                }).getLastFilledRow();  // Call the Apps Script function to get the last filled row
+            });
+        }
+
+        // Function to display the countdown and participant details
+        async function displayCountdown() {
+            try {
+                // Set up the countdown date and objective
+                const countdownDate = new Date("2024-11-23 UTC23:59:59").getTime(); // Target date here
+                const objective = `You have 2 weeks to<br>
+                                   Create a Project that<br>
+                                   has anything to do with<br>
+                                   Tech, School, Education<br>
+                                   in general, It doesn't have<br>
+                                   to be a website <small>(prototype*)</small> `;
+
+                // Fetch the last participant count
+                const participants = await getLastParticipant();
+
+                // Format function for displaying values
+                const valFormat = (val) => {
+                    if (typeof val === 'number') return `<span class="value number">${val}</span>`;
+                    else if (typeof val === 'string') return `<span class="value string">"${val}"</span>`;
+                };
+
+                // Countdown calculation
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                if (distance < 0) {
+                    document.querySelector(".screen").innerHTML = `<p>The countdown has ended!</p>`;
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update the screen with countdown, objective, and participants
+                document.querySelector(".screen").innerHTML =
+                    `<span class="keyword">const</span>
+                    <span class="def">countdownDetails</span>
+                    <span class="operator">= {</span><br>
+                        &nbsp;&nbsp;<span class="property">days</span>: ${valFormat(days)},<br>
+                        &nbsp;&nbsp;<span class="property">hours</span>: ${valFormat(hours)},<br>
+                        &nbsp;&nbsp;<span class="property">minutes</span>: ${valFormat(minutes)},<br>
+                        &nbsp;&nbsp;<span class="property">seconds</span>: ${valFormat(seconds)},<br>
+                        &nbsp;&nbsp;<span class="property">objective</span>: <br>${valFormat(objective)},<br>
+                        &nbsp;&nbsp;<span class="property">participants</span>: ${valFormat(participants)}<br>
+                    <span class="operator"> };</span>`;
+            } catch (error) {
+                console.error('Error displaying countdown:', error);
+            }
+        }
+
+        // Start the countdown
+        function startCountdown() {
+            displayCountdown();
+            setInterval(displayCountdown, 1000); // Update every second
+        }
+
+        // Initialize countdown when the page loads
+        window.onload = startCountdown;
+    </script>
+</body>
+</html>
