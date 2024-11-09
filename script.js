@@ -1,4 +1,3 @@
-
 function register() {
     Swal.fire({
         title: 'Join Us!',
@@ -36,6 +35,7 @@ function register() {
                     <label for="reason" style="color: #e36209;">Why are you joining?</label>
                     <textarea id="reason" class="swal2-textarea" placeholder="Share your reason" style="background-color: #444; color: #00FF00;"></textarea>
                 </div>
+                <button type="submit" style="display:none;" id="submitButton">Submit</button> <!-- Hidden submit button -->
             </form>
         `,
         background: '#333',
@@ -59,6 +59,25 @@ function register() {
                 return false;
             }
             return { name, school, email, number, isTeam, isAlone, teamName, reason };
+        },
+        didOpen: () => {
+            // Attach submit event listener after the Swal modal is open
+            document.getElementById('registrationForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Get form data from the form inputs
+                const name = document.getElementById('name').value;
+                const school = document.getElementById('school').value;
+                const email = document.getElementById('email').value;
+                const number = document.getElementById('number').value;
+                const isTeam = document.getElementById('teamCheckbox').checked;
+                const isAlone = document.getElementById('aloneCheckbox').checked;
+                const teamName = document.getElementById('teamName').value;
+                const reason = document.getElementById('reason').value;
+
+                // Call the function to handle form submission
+                submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason);
+            });
         }
     });
 
@@ -75,24 +94,7 @@ function register() {
         }
     });
 }
-document.getElementById('registrationForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Get form data from the form inputs
-    const name = document.getElementById('name').value;
-    const school = document.getElementById('school').value;
-    const email = document.getElementById('email').value;
-    const number = document.getElementById('number').value;
-    const isTeam = document.getElementById('teamCheckbox').checked;
-    const isAlone = document.getElementById('aloneCheckbox').checked;
-    const teamName = document.getElementById('teamName').value;
-    const reason = document.getElementById('reason').value;
 
-    // Call the function to handle form submission
-    submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason);
-});
-
-// Function to handle form submission and send data to Google Sheets
 function submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason) {
     // Show loading spinner while submitting data
     Swal.fire({
