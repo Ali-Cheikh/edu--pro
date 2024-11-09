@@ -81,7 +81,7 @@ function register() {
 }
 
 // Function to handle form submission and send data to Google Sheets
-$(document).ready(function submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason) {
+function submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason) {
     // Show loading spinner while submitting data
     Swal.fire({
         icon: 'info',
@@ -157,4 +157,4 @@ $(document).ready(function submitFormData(name, school, email, number, isTeam, i
 
     // Send the data
     request.send(params);
-})
+}
