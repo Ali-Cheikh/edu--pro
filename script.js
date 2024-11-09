@@ -35,37 +35,17 @@ function register() {
                     <label for="reason" style="color: #e36209;">Why are you joining?</label>
                     <textarea id="reason" class="swal2-textarea" placeholder="Share your reason" style="background-color: #444; color: #00FF00;"></textarea>
                 </div>
-                <button type="submit" style="display:none;" id="submitButton">Submit</button> <!-- Hidden submit button -->
+                <button type="submit" id="submitButton" style="background-color: #005cc5; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 10px;">Submit</button>
             </form>
         `,
         background: '#333',
-        confirmButtonText: 'Submit',
-        confirmButtonColor: '#005cc5',
-        showCancelButton: true,
-        cancelButtonText: 'Cancel',
+        showConfirmButton: false,
         focusConfirm: false,
-        preConfirm: () => {
-            const name = document.getElementById('name').value;
-            const school = document.getElementById('school').value;
-            const email = document.getElementById('email').value;
-            const number = document.getElementById('number').value;
-            const isTeam = document.getElementById('teamCheckbox').checked;
-            const isAlone = document.getElementById('aloneCheckbox').checked;
-            const teamName = document.getElementById('teamName').value;
-            const reason = document.getElementById('reason').value;
+        willOpen: () => {
+            // Attach event listener for form submission when button is clicked
+            document.getElementById('submitButton').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default form submission
 
-            if (!name || !email || !number || !reason) {
-                Swal.showValidationMessage('Please fill in all required fields');
-                return false;
-            }
-            return { name, school, email, number, isTeam, isAlone, teamName, reason };
-        },
-        didOpen: () => {
-            // Attach submit event listener after the Swal modal is open
-            document.getElementById('registrationForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                // Get form data from the form inputs
                 const name = document.getElementById('name').value;
                 const school = document.getElementById('school').value;
                 const email = document.getElementById('email').value;
@@ -75,13 +55,18 @@ function register() {
                 const teamName = document.getElementById('teamName').value;
                 const reason = document.getElementById('reason').value;
 
-                // Call the function to handle form submission
+                if (!name || !email || !number || !reason) {
+                    Swal.showValidationMessage('Please fill in all required fields');
+                    return false;
+                }
+
+                // Call function to handle form submission
                 submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason);
             });
-        }
+        },
     });
 
-    // JavaScript to handle dynamic fields inside the Swal
+    // Handle dynamic fields inside the Swal modal
     document.getElementById('teamCheckbox').addEventListener('change', function () {
         document.getElementById('teamNameField').style.display = this.checked ? 'block' : 'none';
         document.getElementById('aloneCheckbox').checked = !this.checked; // Uncheck "alone" if "team" is checked
@@ -95,7 +80,8 @@ function register() {
     });
 }
 
-function submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason) {
+// Function to handle form submission and send data to Google Sheets
+$(document).ready(function submitFormData(name, school, email, number, isTeam, isAlone, teamName, reason) {
     // Show loading spinner while submitting data
     Swal.fire({
         icon: 'info',
@@ -171,4 +157,4 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
 
     // Send the data
     request.send(params);
-}
+})
