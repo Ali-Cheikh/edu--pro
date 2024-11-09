@@ -177,10 +177,9 @@ async function displayCountdown() {
                          Tech, School, Education<br>
                          in general, It doesn't have<br>
                          to be a website <small>(prototype*)</small> `;
-    
-      // Fetch the number of participants from the Google Sheets Web App
+
       const participants = await fetchParticipants();
-  
+
       // Function to format values as HTML elements
       const valFormat = (val) => {
         if (typeof val === 'number') return `<span class="value number">${val}</span>`;
@@ -215,20 +214,6 @@ async function displayCountdown() {
           <span class="operator"> };</span>`;
     } catch (error) {
       console.error('Error displaying countdown:', error);
-    }
-  }
-  
-  async function fetchParticipants() {
-    try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwxaEFR8K09cKyP0VFDVXeXYm4-VQu_bHxrfloxJdcyb-e0d0UTDJU7NV4pav6vfcJDdw/exec'); // Replace with your actual web app URL
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      return data.lastRow-1; // Assuming lastRow is the number of participants
-    } catch (error) {
-      console.error('Error fetching participant count:', error);
-      return ; // Return 0 if there's an error fetching participant count
     }
   }
   

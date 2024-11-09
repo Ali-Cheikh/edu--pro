@@ -22,12 +22,13 @@ body {
 p{
   color: #333;
   cursor: pointer;
+  transform: rotate(-2deg) scale(1.05); 
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 input{
   border: 1px solid #00FF00;
 }
-a:hover {
-  color: #00FF00; /* Terminal green color */
-  transform: rotate(-2deg) scale(1.05); /* Add a small scale and rotation */
-  transition: transform 0.2s ease, color 0.2s ease; /* Smooth transition */
+p:hover {
+  color: #00FF00 !important;
+  transform: rotate(0deg) scale(1.0);
 }
