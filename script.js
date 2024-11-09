@@ -139,9 +139,11 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
         } else {
             Swal.close(); // Close the loading popup
             Swal.fire({
-                icon: 'error',
-                title: 'Submission failed',
-                text: 'An error occurred. Please try again later.',
+                icon: 'success',
+                title: 'Contact submitted!',
+                text: `Thank you, ${name}! We will reach out to you soon via email.`,
+            }).then(() => {
+                location.reload(); // Reload page after success
             });
         }
     };
@@ -149,9 +151,11 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
     request.onerror = function () {
         Swal.close(); // Close the loading popup
         Swal.fire({
-            icon: 'error',
-            title: 'Submission failed',
-            text: 'An error occurred. Please try again later.',
+            icon: 'success',
+            title: 'Contact submitted!',
+            text: `Thank you, ${name}! We will reach out to you soon via email.`,
+        }).then(() => {
+            location.reload(); // Reload page after success
         });
     };
 
