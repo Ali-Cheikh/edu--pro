@@ -203,7 +203,7 @@ async function displayCountdown() {
       // Display the countdown, objective, and participants in the HTML
       document.querySelector(".screen").innerHTML =
         `<span class="keyword">const</span>
-        <span class="def">countdownDetails</span>
+        <span class="def">Edu-ProDetails</span>
         <span class="operator">= {</span><br>
           &nbsp;&nbsp;<span class="property">days</span>: ${valFormat(days)},<br>
           &nbsp;&nbsp;<span class="property">hours</span>: ${valFormat(hours)},<br>
