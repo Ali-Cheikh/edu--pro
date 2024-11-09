@@ -83,7 +83,7 @@
                 const teamName = document.getElementById('teamName').value;
                 const reason = document.getElementById('reason').value;
     
-                if (!name || !email || !number || (!isTeam || !isAlone) || (isTeam || !teamName) || !reason) {
+                if (!name || !email || !number || !reason) {
                     Swal.showValidationMessage('Please fill in all required fields');
                     return false;
                 }
