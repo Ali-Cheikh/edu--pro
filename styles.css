@@ -1,165 +1,33 @@
-.img{
-        width: 250px;
-        height: auto;
-        display: block;
-        margin: auto;
-        position: absolute;
-        top: 25%;
-        right: 100px;
-}
-.hero{
-    width: 100%;
-    height: 600px;
-    display: flex;
-    align-items: center;
+  
+.keyword  { color: #d73a49; }   
+.def      { color: #6f42c1; }   
+.operator { color: #00ff00; }   
+.property { color: #005cc5; }   
+.string   { color: #00ff00; }   
+.number   { color: #e36209; }   
 
-
-
+* { box-sizing: border-box; }
+.screen { color: grey;}
+body { 
+  margin: 0;
+  padding: 1em;
+  min-height: 100vh;
+  background-color: #101918;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 4.5vmin;
+  font-family: monospace;
 }
-form{
-    width: 100%;
-    max-width: 600px;
-
+p{
+  color: #333;
+  cursor: pointer;
 }
-.input-g{
-    margin-bottom: 30xp;
-    position: relative;
+input{
+  border: 1px solid #00FF00;
 }
-input, textarea{
-    width: 100%;
-    padding: 10px;
-    outline: 0;
-    border: 1px solid #000000;
-    color: #000;
-    font-size: 15px;
-    margin: 16px;
-    margin-left: 100px;
-}
-label{
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 10px;
-    color: #000;
-    cursor: text;
-    transition: 0.2s;
-    margin: 16px;
-    margin-left: 100px;
-
-}
-button{
-    padding: 10px 0;
-    color: #000000;
-    border: 1px solid #000;
-    outline: none;
-    background-color:transparent;
-    width: 100%;
-    cursor: pointer;
-    margin: 16px;
-
-}
-input:focus~label,
-input:valid~label,
-textarea:focus~label
-textarea:valid~label{
-    top: -35px;
-    font-size: 14px;
-}
-button[type="reset"]{
-    background: transparent;
-    width: 50px;
-    height: 50px;
-    border: none;
-
-}
-button[type="submit"]{
-    backdrop-filter: blur(3px);
-    margin-left: 100px;
-}
-@media screen and (max-width:1100px){
-    *{
-        margin: 0;
-        padding: 0;
-        font-family: 'poppins',sans-serif;
-        box-sizing: border-box;
-    }
-    .img{
-            width: 150px;
-            height: 150px;
-            display: block;
-            margin: auto;
-            position: relative;
-            top: 0;
-            left: 0;
-            right: 0;
-    }
-    .hero{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    form{
-        width: 100%;
-        position: fixed;
-    }
-
-    input, textarea{
-        width: 100%;
-        padding: 10px;
-        outline: 0;
-        border: 1px solid #000000;
-        color: #000;
-        background: transparent;
-        font-size: 15px;
-        margin: 16px 0;
-        justify-content: center;
-    }
-    label{
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        padding: 10px;
-        color: #000;
-        cursor: text;
-        transition: 0.2s;
-        margin: 16px 0;
-    }
-    button{
-        padding: 10px 0;
-        color: #000000;
-        border: 1px solid #000;
-        outline: none;
-        background-color:transparent;
-        justify-content: center;
-        cursor: pointer;
-    }
-    input:focus~label,
-    input:valid~label,
-    textarea:focus~label
-    textarea:valid~label{
-        top: -35px;
-        font-size: 14px;
-    }
-    button[type="reset"]{
-        background: transparent;
-        width: 50px;
-        height: 50px;
-        border: none;
-    }
-    button[type="submit"]{
-        position: relative;
-        margin: 16px 0;
-    }
-    button::after[type="submit"]{
-        color: rgb(95, 127, 216);
-    }
-    button[type="submit"]:hover{
-        color: rgb(118, 118, 211);
-    }
-    button[type="button"]{
-        width: 50px;
-        height: 50px;
-    }
+a:hover {
+  color: #00FF00; /* Terminal green color */
+  transform: rotate(-2deg) scale(1.05); /* Add a small scale and rotation */
+  transition: transform 0.2s ease, color 0.2s ease; /* Smooth transition */
 }
