@@ -117,7 +117,7 @@ a:hover {
                 const teamName = document.getElementById('teamName').value;
                 const reason = document.getElementById('reason').value;
     
-                if (!name || !school || !email || !number || (!isTeam && !isAlone) || (isTeam && !teamName) || !reason) {
+                if (!name || !email || !number || (!isTeam || !isAlone) || (isTeam || !teamName) || !reason) {
                     Swal.showValidationMessage('Please fill in all required fields');
                     return false;
                 }
