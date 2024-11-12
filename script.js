@@ -3,40 +3,60 @@ function register() {
         title: 'Join Us!',
         color: "#a984ee",
         html: `
-            <form id="registrationForm" method="post" style="text-align: left; color: #f44; align-items:center">
-                <label for="name" style="color: #e36209;">Name</label>
-                <input type="text" id="name" class="swal2-input" placeholder="Enter your name" style="background-color: #444; color: #00FF00;">
-                
-                <label for="school" style="color: #e36209;">School</label>
-                <input type="text" id="school" class="swal2-input" placeholder="Enter your school" style="background-color: #444; color: #00FF00;">
-                
-                <label for="email" style="color: #e36209;">Email</label>
-                <input type="email" id="email" class="swal2-input" placeholder="Enter your email" style="background-color: #444; color: #00FF00;">
-                
-                <label for="number" style="color: #e36209;">Phone Number</label>
-                <input type="tel" id="number" class="swal2-input" placeholder="Enter your number" style="background-color: #444; color: #00FF00;">
-                
-                <label style="display: flex; align-items: center; margin-top: 10px; color: #e36209;">
-                    <input type="checkbox" id="teamCheckbox" style="margin-right: 5px;">
-                    Joining as a team
-                </label>
-                
-                <label style="display: flex; align-items: center; margin-top: 10px; color: #e36209;">
-                    <input type="checkbox" id="aloneCheckbox" style="margin-right: 5px;" checked>
-                    Joining alone
-                </label>
+<form id="registrationForm" method="post" style="color: #f44; max-width: 500px; margin: 0 auto; text-align: left;">
+    <div style="margin-bottom: 15px;">
+        <label for="name" style="color: #e36209;">Full Name</label><br>
+        <input type="text" id="name" class="swal2-input" placeholder="Enter your name" 
+               style="width: 70%; background-color: #444; color: #00FF00; border: 1px solid #777; padding: 8px;">
+    </div>
 
-                <div id="teamNameField" style="display: none;">
-                    <label for="teamName" style="color: #e36209;">Team Name</label>
-                    <input type="text" id="teamName" class="swal2-input" placeholder="Enter your team name" style="background-color: #444; color: #00FF00;">
-                </div>
-                
-                <div id="reasonField" style="margin-top: 10px;">
-                    <label for="reason" style="color: #e36209;">Why are you joining?</label>
-                    <textarea id="reason" class="swal2-textarea" placeholder="Share your reason" style="background-color: #444; color: #00FF00;"></textarea>
-                </div>
-                <button type="submit" id="submitButton" style="background-color: #005cc5; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 10px;">Submit</button>
-            </form>
+    <div style="margin-bottom: 15px;">
+        <label for="school" style="color: #e36209;">School</label>
+        <input type="text" id="school" class="swal2-input" placeholder="Enter your school" 
+               style="width: 70%; background-color: #444; color: #00FF00; border: 1px solid #777; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="email" style="color: #e36209;">Email</label>
+        <input type="email" id="email" class="swal2-input" placeholder="Enter your email" 
+               style="width: 70%; background-color: #444; color: #00FF00; border: 1px solid #777; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="number" style="color: #e36209;">Phone Number</label>
+        <input type="tel" id="number" class="swal2-input" placeholder="Enter your number" 
+               style="width: 70%; background-color: #444; color: #00FF00; border: 1px solid #777; padding: 8px;">
+    </div>
+
+    <div style="display: flex; align-items: center; color: #e36209; margin-bottom: 10px;">
+        <input type="checkbox" id="teamCheckbox" style="margin-right: 5px;">
+        <label for="teamCheckbox">Joining as a team</label>
+    </div>
+    <div style="display: flex; align-items: center; color: #e36209; margin-bottom: 10px;">
+        <input type="checkbox" id="aloneCheckbox" style="margin-right: 5px;" checked>
+        <label for="aloneCheckbox">Joining alone</label>
+    </div>
+
+    <div id="teamNameField" style="display: none; margin-bottom: 15px;">
+        <label for="teamName" style="color: #e36209;">Team Name</label>
+        <input type="text" id="teamName" class="swal2-input" placeholder="Enter your team name" 
+               style="width: 70%; background-color: #444; color: #00FF00; border: 1px solid #777; padding: 8px;">
+    </div>
+
+    <div id="reasonField" style="margin-bottom: 15px;">
+        <label for="reason" style="color: #e36209;">Why are you joining?</label>
+        <textarea id="reason" class="swal2-textarea" placeholder="Share your reason" 
+                  style="width: 70%; background-color: #444; color: #00FF00; border: 1px solid #777; padding: 8px; height: 80px;"></textarea>
+    </div>
+
+    <div style="text-align: center; margin-top: 15px;">
+        <button type="submit" id="submitButton" 
+                style="background-color: #005cc5; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+            Submit
+        </button>
+    </div>
+</form>
+
         `,
         background: '#333',
         showConfirmButton: false,
@@ -166,76 +186,64 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
 
 // ===================================================================================
 
+async function fetchParticipants() {
+    try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbwxaEFR8K09cKyP0VFDVXeXYm4-VQu_bHxrfloxJdcyb-e0d0UTDJU7NV4pav6vfcJDdw/exec');
+        if (!response.ok) throw new Error('Failed to fetch participant count');
+        
+        const data = await response.json();
+        return data.lastRow - 1; // Assuming lastRow contains the total number of participants
+    } catch (error) {
+        console.error('Error fetching participant count:', error);
+        return 0; // Return 0 as a fallback for participant count
+    }
+}
 
-async function displayCountdown() {
+function displayCountdown(participants = "Loading...") {
+    const countdownDate = new Date("2024-11-23T23:59:59Z").getTime();
+    const objective = `You have 2 weeks to<br>
+                       Create a Project that<br>
+                       has anything to do with<br>
+                       Tech, School, Education<br>
+                       in general, It doesn't have<br>
+                       to be a website <small>(prototype*)</small>`;
     
-      // Set up the countdown date, objective, and number of participants
-      const countdownDate = new Date("2024-11-23 UTC23:59:59").getTime(); // Adjust target date here
-      const objective = `You have 2 weeks to<br>
-                         Create a Project that<br>
-                         has anything to do with<br>
-                         Tech, School, Education<br>
-                         in general, It doesn't have<br>
-                         to be a website <small>(prototype*)</small> `;
+    const now = new Date().getTime();
+    const distance = countdownDate - now;
 
-      const participants = await fetchParticipants();
-
-      // Function to format values as HTML elements
-      const valFormat = (val) => {
-        if (typeof val === 'number') return `<span class="value number">${val}</span>`;
-        else if (typeof val === 'string') return `<span class="value string">"${val}"</span>`;
-      };
-  
-      // Countdown calculation
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-  
-      if (distance < 0) {
+    if (distance < 0) {
         document.querySelector(".screen").innerHTML = `<p>The countdown has ended!</p>`;
         return;
-      }
-  
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-      // Display the countdown, objective, and participants in the HTML
-      document.querySelector(".screen").innerHTML =
-        `<span class="keyword">const</span>
-        <span class="def">Edu-ProDetails</span>
-        <span class="operator">= {</span><br>
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    const valFormat = (val) => 
+        `<span class="value ${typeof val === 'number' ? 'number' : 'string'}">${typeof val === 'string' ? `"${val}"` : val}</span>`;
+
+    document.querySelector(".screen").innerHTML = `
+        <span class="keyword">const</span> <span class="def">Edu-ProDetails</span> <span class="operator">= {</span><br>
           &nbsp;&nbsp;<span class="property">days</span>: ${valFormat(days)},<br>
           &nbsp;&nbsp;<span class="property">hours</span>: ${valFormat(hours)},<br>
           &nbsp;&nbsp;<span class="property">minutes</span>: ${valFormat(minutes)},<br>
           &nbsp;&nbsp;<span class="property">seconds</span>: ${valFormat(seconds)},<br>
-          &nbsp;&nbsp;<span class="property">objective</span>: <br>${valFormat(objective)},<br>
+          &nbsp;&nbsp;<span class="property">objective</span>: ${valFormat(objective)},<br>
           &nbsp;&nbsp;<span class="property">participants</span>: ${valFormat(participants)}<br>
-          <span class="operator"> };</span>`;
-          try {
-            const participants = await fetchParticipants();
-        } catch (error) {
-      console.error('Error displaying countdown:', error);
-    }
-  }
-  
-  async function fetchParticipants() {
-    try {
-      const response =await fetch('https://script.google.com/macros/s/AKfycbwxaEFR8K09cKyP0VFDVXeXYm4-VQu_bHxrfloxJdcyb-e0d0UTDJU7NV4pav6vfcJDdw/exec');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      return data.lastRow-1; // Assuming lastRow is the number of participants
-    } catch (error) {
-      console.error('Error fetching participant count:', error);
-      return ; // Return 0 if there's an error fetching participant count
-    }
-  }
-  function startCountdown() {
-    displayCountdown();
-    setInterval(displayCountdown, 1000); // Update every second
-  }
-  
-  startCountdown();
-  
+        <span class="operator">};</span>`;
+}
+
+async function startCountdown() {
+    displayCountdown(); // display without participants
+
+    // Fetch
+    const participants = await fetchParticipants();
+    displayCountdown(participants); // Update after fetching
+
+    // Update every second
+    setInterval(() => displayCountdown(participants), 1000);
+}
+
+startCountdown();
