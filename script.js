@@ -168,7 +168,7 @@ function submitFormData(name, school, email, number, isTeam, isAlone, teamName, 
 
 
 async function displayCountdown() {
-    try {
+    
       // Set up the countdown date, objective, and number of participants
       const countdownDate = new Date("2024-11-23 UTC23:59:59").getTime(); // Adjust target date here
       const objective = `You have 2 weeks to<br>
@@ -212,11 +212,26 @@ async function displayCountdown() {
           &nbsp;&nbsp;<span class="property">objective</span>: <br>${valFormat(objective)},<br>
           &nbsp;&nbsp;<span class="property">participants</span>: ${valFormat(participants)}<br>
           <span class="operator"> };</span>`;
-    } catch (error) {
+          try {
+            const participants = await fetchParticipants();
+        } catch (error) {
       console.error('Error displaying countdown:', error);
     }
   }
   
+  async function fetchParticipants() {
+    try {
+      const response =await fetch('https://script.google.com/macros/s/AKfycbwxaEFR8K09cKyP0VFDVXeXYm4-VQu_bHxrfloxJdcyb-e0d0UTDJU7NV4pav6vfcJDdw/exec');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data.lastRow-1; // Assuming lastRow is the number of participants
+    } catch (error) {
+      console.error('Error fetching participant count:', error);
+      return ; // Return 0 if there's an error fetching participant count
+    }
+  }
   function startCountdown() {
     displayCountdown();
     setInterval(displayCountdown, 1000); // Update every second
